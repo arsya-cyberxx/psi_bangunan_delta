@@ -36,7 +36,7 @@ def gauge_chart(title, value, color):
 
 # Layout
 st.set_page_config(layout="wide")
-st.title("📊 Smart Monitoring Dashboard")
+st.title("Anjay Shit Monitoring Dashboard")
 
 # Auto refresh (simulasi real-time)
 st.markdown(f'<meta http-equiv="refresh" content="5">', unsafe_allow_html=True)
@@ -64,7 +64,7 @@ df_kebisingan = pd.DataFrame({"Month": months, "Value": data["Kebisingan"]})
 df_lpg = pd.DataFrame({"Month": months, "Value": data["LPG"]})
 
 # Bar charts
-st.markdown("### 📈 Monitoring Faktor Lingkungan")
+st.markdown("### Monitoring Ruang Kelas TN2")
 
 col6, col7, col8 = st.columns(3)
 
@@ -82,4 +82,4 @@ with col7:
 with col8:
     st.plotly_chart(horizontal_bar("Kebocoran LPG", df_lpg, "#F57F17"), use_container_width=True)
 
-st.caption("©️ 2025 Dashboard by Kamu 🚀")
+st.caption("©️ 2025 Dashboard by Vendor Delta")
