@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="en">
+    
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Dashboard</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.1.0/dist/chartjs-plugin-annotation.min.js"></script>
+        <link rel="stylesheet" href="static/css/dashboard.css" />
+    </head>
+
+<body>
+    <div class="container">
+        <div class="mt-5 p-5" style="background-color: #fff6da; border-radius: 10px;">
+            <div class="row align-items-center">
+                <div class="col-8">
+                    <div class="d-flex align-items-center my-3">
+                        <div class="circle red"></div>
+                        <div class="circle yellow"></div>
+                        <div class="circle green"></div>
+                        <div class="d-inline align-self-center ms-3">
+                            <span class="fw-semibold">Vendor Delta</span> - <span>Monitoring Bangunan</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4 text-end">
+                    <div class="fw-light">Hello Vendor Delta</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-9" style="background-color: #a94a4a; border-radius: 10px;">
+                    <div class="d-flex flex-row my-3 gap-4">
+                        <div class="p-2 w-100 shadow-lg" style="background-color: #f4d793; border-radius: 10px;">
+                            <div class="group">
+                                <div class="text-wrapper-3">Suhu</div>
+                                <div class="h">Normal</div>
+                                <canvas id="suhuChart" width="100" height="100"></canvas>
+                            </div>
+                        </div>
+                        <div class="p-2 w-100 shadow-lg" style="background-color: #f4d793; border-radius: 10px;">
+                            <div class="group">
+                                <div class="text-wrapper-3">Kelembapan</div>
+                                <div class="h">Normal</div>
+                                <canvas id="kelembapanChart" width="100" height="100"></canvas>
+                            </div>
+                        </div>
+                        <div class="p-2 w-100 shadow-lg" style="background-color: #f4d793; border-radius: 10px;">
+                            <div class="group" style="position: relative;">
+                                <div class="text-wrapper-3">Kadar CO₂</div>
+                                <div class="h">Normal</div>
+                                <div style="position: absolute; top: 0; right: 0; color: #af1740; font-size: 2rem; font-weight: 700;" id="co2">0 ppm</div>
+                                <canvas id="kadarCo2Chart" width="100" height="50"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div style="background-color: #a94a4a; border-radius: 10px; display: flex; flex-direction: column; justify-content: space-between; padding: 10px; margin-left: 10px;">
+                        <div class="group-2">
+                            <div class="text-wrapper-2">Jumlah Orang</div>
+                            <div class="i">Normal</div>
+                        </div>
+                        <div id="jumlah_orang" class="text-start ms-1" style="font-size: 6rem; color: #fdf5da">0</div>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="row mt-3">
+                <div class="col-9" style="background-color: #a94a4a; border-radius: 10px;">
+                    <div class="d-flex flex-row my-3 gap-4">
+                        <div class="p-2 w-100 shadow-lg" style="background-color: #f4d793; border-radius: 10px; border-radius: 10px; display: flex; flex-direction: column; justify-content: space-between; padding: 10px; margin-left: 10px;">
+                            <div class="group">
+                                <div class="text-wrapper-3">Intensitas Cahaya</div>
+                                <div class="h">Normal</div>
+                            </div>
+                            <div class="text-start ms-1" style="font-size: 6rem; color: #b93e00"><span id="cahaya">0</span><span style="font-size: 3rem;"> lux</span></div>
+                        </div>
+                        <div class="p-2 w-100 shadow-lg" style="background-color: #f4d793; border-radius: 10px;">
+                            <div class="group" style="position: relative;">
+                                <div class="text-wrapper-3">Kebisingan</div>
+                                <div class="h">Normal</div>
+                                <div id="kebisingan" style="position: absolute; top: 30px; right: 0; color: #af1740; font-size: 2rem; font-weight: 700;">0 dB</div>
+                                <img src="static/image/kebisingan.png" alt="" width="250" class="align-self-end pt-5">
+                            </div>
+                        </div>
+                        <div class="p-2 w-100 shadow-lg" style="background-color: #f4d793; border-radius: 10px;">
+                            <div class="group">
+                                <div class="text-wrapper-3 text-center" style="color: #b52145;">Penggunaan Listrik</div>
+                                <div class="card p-2 shadow mb-2 mt-3 border-0" style="background-color: #bf4708; color: #fdf5da;">
+                                    <div class="d-flex justify-content-between">
+                                        <div>Tegangan</div>
+                                        <div id="tegangan">0 volt</div>
+                                    </div>
+                                </div>
+                                <div class="card p-2 shadow mb-2 border-0" style="background-color: #bf4708; color: #fdf5da;">
+                                    <div class="d-flex justify-content-between">
+                                        <div>Arus</div>
+                                        <div id="arus">0 ampere</div>
+                                    </div>
+                                </div>
+                                <div class="card p-2 shadow border-0" style="background-color: #bf4708; color: #fdf5da;">
+                                    <div class="d-flex justify-content-between">
+                                        <div>Daya</div>
+                                        <div id="daya">0 watt</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div style="background-color: #a94a4a; border-radius: 10px; display: flex; flex-direction: column; justify-content: space-between; padding: 10px; margin-left: 10px;">
+                        <div class="group-2">
+                            <div class="text-wrapper-2 text-center">Deteksi Kebocoran</div>
+                        </div>
+                        <div class="my-4 mx-2">
+                            <div class="card p-2 shadow mb-3 mt-2 border-0" style="background-color: #cd3333; color: #fdf5da;">
+                                <div class="d-flex justify-content-center" id="gas_lpg">
+                                    <div>Terdeteksi Gas LPG/Alkohol</div>
+                                </div>
+                            </div>
+                            <div class="card p-2 shadow mb-3 border-0" style="background-color: #239c2b; color: #fdf5da;">
+                                <div class="d-flex justify-content-center" id="gas_alkohol">
+                                    <div>Udara Normal</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+    <script>
+        const COLORS = [
+            "rgb(187, 61, 0)",
+            "rgb(187, 61, 0)",
+            "rgb(187, 61, 0)"
+        ];
+    
+        const MIN = 0;
+        const MAX = 100;
+        const initialValue = 0;
+
+        function index(perc) {
+            return perc < 70 ? 0 : perc < 90 ? 1 : 2;
+        }
+
+        function generateRandomArray(length, min, max) {
+            let randomArray = [];
+            for (let i = 0; i < length; i++) {
+                const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min; // Random number between min and max
+                randomArray.push(randomNumber);
+            }
+            return randomArray;
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Suhu Chart
+        |--------------------------------------------------------------------------
+        */
+        const ctxSuhu = document.getElementById("suhuChart").getContext("2d");
+        const dataSuhu = {
+            datasets: [
+                {
+                    data: [initialValue, 100 - initialValue],
+                    borderWidth: 0,
+                    backgroundColor(ctx) {
+                        if (ctx.type !== "data") {
+                            return;
+                        }
+                        if (ctx.index === 1) {
+                            return "rgb(246, 173, 70)";
+                        }
+                        return COLORS[index(ctx.raw)];
+                    },
+                },
+            ],
+        };
+        const annotationSuhu = {
+            type: 'doughnutLabel',
+            content: ({ chart }) => [
+                chart.data.datasets[0].data[0].toFixed(0) + '°C',
+            ],
+            drawTime: 'beforeDraw',
+            position: {
+                y: '-50%'
+            },
+            font: [{ size: 50, weight: 'bold' }, { size: 20 }],
+            color: ({ chart }) => [COLORS[index(chart.data.datasets[0].data[0])], 'grey']
+        };
+        const suhuChart = new Chart(ctxSuhu, {
+            type: 'doughnut',
+            data: dataSuhu,
+            options: {
+                aspectRatio: 2,
+                circumference: 180,
+                rotation: -90,
+                plugins: {
+                    annotation: {
+                        annotations: {
+                            annotationSuhu
+                        }
+                    }
+                }
+            }
+        });
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Kelembapan Chart
+        |--------------------------------------------------------------------------
+        */
+        const ctxKelembapan = document.getElementById("kelembapanChart").getContext("2d");
+        const dataLembap = {
+            datasets: [
+                {
+                    data: [initialValue, 100 - initialValue],
+                    borderWidth: 0,
+                    backgroundColor(ctx) {
+                        if (ctx.type !== "data") {
+                            return;
+                        }
+                        if (ctx.index === 1) {
+                            return "rgb(246, 173, 70)";
+                        }
+                        return COLORS[index(ctx.raw)];
+                    },
+                },
+            ],
+        };
+        const annotationLembap = {
+            type: 'doughnutLabel',
+            content: ({ chart }) => [
+                chart.data.datasets[0].data[0].toFixed(0) + '%',
+            ],
+            drawTime: 'beforeDraw',
+            position: {
+                y: '-50%'
+            },
+            font: [{ size: 50, weight: 'bold' }, { size: 20 }],
+            color: ({ chart }) => [COLORS[index(chart.data.datasets[0].data[0])], 'grey']
+        };
+        const kelembapanChart = new Chart(ctxKelembapan, {
+            type: 'doughnut',
+            data: dataLembap,
+            options: {
+                aspectRatio: 2,
+                circumference: 180,
+                rotation: -90,
+                plugins: {
+                    annotation: {
+                        annotations: {
+                            annotationLembap
+                        }
+                    }
+                }
+            }
+        });
+
+        /*
+        |--------------------------------------------------------------------------
+        | Kadar CO2 Chart
+        |--------------------------------------------------------------------------
+        */
+        const ctxKadarCO2 = document.getElementById('kadarCo2Chart').getContext('2d');
+        const dataKadarCO2 = {
+            labels: [' ', ' ', ' ', ' ', ' '], // X-axis labels
+            datasets: [{
+                label: 'Kadar CO₂ ',
+                data: [0, 0, 0, 0, 0], // Y-axis data
+                fill: true, // Enable area under the line
+                backgroundColor: 'rgba(247, 218, 178, 1)', // Area fill color
+                borderColor: 'rgba(190, 65, 13, 1)', // Line color
+                borderWidth: 3
+            }]
+        };
+        const kadarCO2Chart = new Chart(ctxKadarCO2, {
+            type: 'line', // Line chart type
+            data: dataKadarCO2,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        display: false,
+                    },
+                    y: {
+                        beginAtZero: true,
+                        display: false,
+                    },
+                },
+                elements: {
+                    line: {
+                        tension: 0.4
+                    }
+                }
+            },
+        })
+
+        setInterval(() => {
+            /*
+            |--------------------------------------------------------------------------
+            | Data Random
+            |--------------------------------------------------------------------------
+            */
+
+            // const randomSuhu = Math.floor(Math.random() * 100) + 1;
+            // const randomKelembaban = Math.floor(Math.random() * 100) + 1;
+            // const randomCO2 = generateRandomArray(7, 0, 100);
+            // const randomTegangan = Math.floor(Math.random() * 100) + 1 + " volt";
+            // const randomArus = Math.floor(Math.random() * 100) + 1 + " ampere";
+            // const randomDaya = Math.floor(Math.random() * 100) + 1 + " watt";
+            // const randomKebisingan = Math.floor(Math.random() * 100) + 1 + " dB";
+            // const randomCahaya = Math.floor(Math.random() * 100) + 1 + " lux";
+            // const randomKadarCO2 = Math.floor(Math.random() * 100) + 1 + " ppm";
+            // const randomJmlhOrang = Math.floor(Math.random() * 100) + 1;
+
+            // document.getElementById('tegangan').innerText = randomTegangan;
+            // document.getElementById('arus').innerText = randomArus;
+            // document.getElementById('daya').innerText = randomDaya;
+            // document.getElementById('kebisingan').innerText = randomKebisingan;
+            // document.getElementById('cahaya').innerText = parseInt(randomCahaya);
+            // document.getElementById('jumlah_orang').innerText = randomJmlhOrang;
+            // document.getElementById('co2').innerText = randomKadarCO2;
+
+            // suhuChart.data.datasets[0].data[0] = randomSuhu;
+            // suhuChart.data.datasets[0].data[1] = 100 - randomSuhu;
+            // suhuChart.update();
+            
+            // kelembapanChart.data.datasets[0].data[0] = randomKelembaban;
+            // kelembapanChart.data.datasets[0].data[1] = 100 - randomKelembaban;
+            // kelembapanChart.update();
+
+            // kadarCO2Chart.data.datasets[0].data = randomCO2;
+            // kadarCO2Chart.update();
+
+            /*
+            |--------------------------------------------------------------------------
+            | Data API
+            |--------------------------------------------------------------------------
+            */
+           
+            fetchLatestData();
+        }, 2000);
+        
+        
+        function fetchLatestData() {
+            fetch('/get-latest-data/')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('gas_lpg').innerText = data.gas_lpg;
+                document.getElementById('gas_alkohol').innerText = data.gas_alkohol;
+                document.getElementById('tegangan').innerText = data.tegangan;
+                document.getElementById('arus').innerText = data.arus;
+                document.getElementById('daya').innerText = data.daya;
+                document.getElementById('kebisingan').innerText = data.kebisingan;
+                document.getElementById('cahaya').innerText = parseInt(data.cahaya);
+                document.getElementById('jumlah_orang').innerText = data.jumlah_orang;
+                document.getElementById('co2').innerText = data.co2;
+
+                suhuChart.data.datasets[0].data[0] = parseInt(data.suhu);
+                suhuChart.data.datasets[0].data[1] = 100 - parseInt(data.suhu);
+                suhuChart.update();
+
+                kelembapanChart.data.datasets[0].data[0] = parseInt(data.kelembaban);
+                kelembapanChart.data.datasets[0].data[1] = 100 - parseInt(data.kelembaban);
+                kelembapanChart.update();
+                
+                kadarCO2Chart.data.datasets[0].data = data.chart_co2;
+                kadarCO2Chart.update();
+            });
+        }
+    </script>
+</body>
+
+</html>

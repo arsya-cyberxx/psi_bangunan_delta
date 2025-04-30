@@ -1,0 +1,68 @@
+.bg-primary {
+  background-color: rgba(255, 255, 255, 1);
+}
+
+.circle {
+  width: 25px; /* Adjust size of the circle */
+  height: 25px;
+  border-radius: 50%; /* Makes the shape round */
+  display: inline-block;
+  margin: 5px; /* Space between circles */
+}
+
+.red {
+  background-color: #cd3333;
+}
+.yellow {
+  background-color: #f2c94c;
+}
+.green {
+  background-color: #229b2a;
+}
+
+body {
+  height: 96vh;
+  margin: 0;
+  background: linear-gradient(to bottom, #8e3b3b, #f4e1b2);
+  font-family: "SF Pro Display-Bold", Helvetica;
+}
+
+.h {
+  color: #cc2b52;
+  font-size: 16.3px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.text-wrapper-3 {
+  font-weight: 700;
+  color: #af1740;
+  font-size: 22.7px;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.group {
+    margin: 5px;
+}
+
+.i {
+  color: #efd18c;
+  font-size: 16.3px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.text-wrapper-2 {
+  font-weight: 700;
+  color: #fdf5da;
+  font-size: 22.7px;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.group-2 {
+    margin: 15px;
+}

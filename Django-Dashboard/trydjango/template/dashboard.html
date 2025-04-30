@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Monitoring TN4</title>
+</head>
+<body>
+    <h1>Bangunan - Vendor Delta</h1>
+
+    <h2>Suhu</h2>
+    <p id="suhu">{{ suhu }}</p>
+
+    <h2>Kelembaban</h2>
+    <p id="kelembaban">{{ kelembaban }}</p>
+
+    <h2>Kadar CO2</h2>
+    <p id="co2">{{ co2 }}</p>
+
+    <h2>Deteksi Gas LPG</h2>
+    <p id="gas_lpg">{{ gas_lpg }}</p>
+
+    <h2>Deteksi Gas Alkohol</h2>
+    <p id="gas_alkohol">{{ gas_alkohol }}</p>
+
+    <h2>Intensitas Cahaya</h2>
+    <p id="cahaya">{{ cahaya }}</p>
+
+    <h2>Jumlah Orang</h2>
+    <p id="jumlah_orang">{{ jumlah_orang }}</p>
+
+    <h2>Kebisingan</h2>
+    <p id="kebisingan">{{ kebisingan }}</p>
+
+    <h2>Penggunaan Listrik</h2>
+    <ul>
+        <li>Tegangan: <span id="tegangan">{{ listrik.tegangan }}</span></li>
+        <li>Arus: <span id="arus">{{ listrik.arus }}</span></li>
+        <li>Daya: <span id="daya">{{ listrik.daya }}</span></li>
+    </ul>
+
+    <h2>Chart CO2 (5 Data Terakhir)</h2>
+    <ul>
+        {% for co2 in chart_co2 %}
+            <li>{{ co2 }} ppm</li>
+        {% empty %}
+            <li>No data available</li>
+        {% endfor %}
+    </ul>
+
+    <script>
+        function fetchLatestData() {
+            fetch('/get-latest-data/')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('suhu').innerText = data.suhu;
+                document.getElementById('kelembaban').innerText = data.kelembaban;
+                document.getElementById('co2').innerText = data.co2;
+                document.getElementById('gas_lpg').innerText = data.gas_lpg;
+                document.getElementById('gas_alkohol').innerText = data.gas_alkohol;
+                document.getElementById('cahaya').innerText = data.cahaya;
+                document.getElementById('jumlah_orang').innerText = data.jumlah_orang;
+                document.getElementById('kebisingan').innerText = data.kebisingan;
+                document.getElementById('tegangan').innerText = data.tegangan;
+                document.getElementById('arus').innerText = data.arus;
+                document.getElementById('daya').innerText = data.daya;
+            });
+        }
+
+        setInterval(fetchLatestData, 1000); 
+    </script>
+</body>
+</html>
